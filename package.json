@@ -1,6 +1,10 @@
 {
     "name": "stomatology",
     "version": "1.0.0",
+    "engines": {
+        "node": "15.9.0",
+        "npm": "7.5.3"
+    },
     "description": "stomatology project",
     "main": "server.js",
     "type": "module",
