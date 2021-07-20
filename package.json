@@ -21,6 +21,7 @@
     "author": "yats-vlds",
     "license": "ISC",
     "dependencies": {
+        "@heroku/buildpack-registry": "^1.0.1",
         "bcryptjs": "^2.4.3",
         "colors": "^1.4.0",
         "concurrently": "^6.2.0",
@@ -32,6 +33,7 @@
         "material-table": "^1.69.3",
         "mongoose": "^5.13.2",
         "morgan": "^1.10.0",
-        "path": "^0.12.7"
+        "path": "^0.12.7",
+        "valid-url": "^1.0.9"
     }
 }
