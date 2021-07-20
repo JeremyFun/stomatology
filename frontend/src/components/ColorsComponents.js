@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {addCustomer, getAllCustomer} from "../actions/customerActions";
 import {getAllUsers} from "../actions/userActions";
 import {addTechnic} from "../actions/technicActions";
-import {addColors, updateColors} from "../actions/colorsActions";
+import {addColors, deleteColors, updateColors} from "../actions/colorsActions";
 
 function ColorsComponents({colorsAll}) {
     const [columns, setColumns] = useState([
@@ -35,9 +35,8 @@ function ColorsComponents({colorsAll}) {
                             const dataUpdate = [...data];
                             const index = oldData.tableData.id;
                             dataUpdate[index] = newData;
-                            dispatch(updateColors(newData._id))
+                            dispatch(updateColors(newData))
                             setData([...dataUpdate]);
-
                             resolve();
                         }, 1000)
                     }),
@@ -46,6 +45,8 @@ function ColorsComponents({colorsAll}) {
                         setTimeout(() => {
                             const dataDelete = [...data];
                             const index = oldData.tableData.id;
+                            debugger
+                            dispatch(deleteColors(oldData._id))
                             dataDelete.splice(index, 1);
                             setData([...dataDelete]);
 

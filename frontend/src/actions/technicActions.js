@@ -1,9 +1,21 @@
 import {
     TECHNIC_ADD_REQUEST,
     TECHNIC_ADD_SUCCESS,
-    TECHNIC_ADD_FAIL, GET_ALL_TECHNIC_REQUEST, GET_ALL_TECHNIC_SUCCESS, GET_ALL_TECHNIC_FAIL
+    TECHNIC_ADD_FAIL,
+    GET_ALL_TECHNIC_REQUEST,
+    GET_ALL_TECHNIC_SUCCESS,
+    GET_ALL_TECHNIC_FAIL,
+    TECHNIC_UPDATE_REQUEST,
+    TECHNIC_UPDATE_SUCCESS, TECHNIC_UPDATE_FAIL, TECHNIC_DELETE_REQUEST, TECHNIC_DELETE_SUCCESS, TECHNIC_DELETE_FAIL
 } from "../constants/technicConstants"
 import axios from "axios"
+import {
+    COLORS_DELETE_FAIL,
+    COLORS_DELETE_REQUEST, COLORS_DELETE_SUCCESS,
+    COLORS_UPDATE_FAIL,
+    COLORS_UPDATE_REQUEST,
+    COLORS_UPDATE_SUCCESS
+} from "../constants/colorsConstants";
 
 export const addTechnic = (name) => async (dispatch) => {
     try {
@@ -70,6 +82,63 @@ export const getAllTechnic = () => async (dispatch) => {
         })
     }
 }
+
+export const updateTechnic = (_id) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: TECHNIC_UPDATE_REQUEST
+        })
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+
+        const { data } = await axios.put(
+            `/api/technic`,
+            _id,
+            config
+        )
+
+        dispatch({
+            type: TECHNIC_UPDATE_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: TECHNIC_UPDATE_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message
+        })
+    }
+}
+
+export const deleteTechnic = (_id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: TECHNIC_DELETE_REQUEST
+        })
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+        const {data} = await axios.delete(`/api/technic/${_id}` )
+        dispatch({ type: TECHNIC_DELETE_SUCCESS,  payload: data })
+    } catch (error) {
+        dispatch({
+            type: TECHNIC_DELETE_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message
+        })
+    }
+}
+
 
 
 

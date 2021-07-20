@@ -1,7 +1,8 @@
 import React, {useEffect} from "react"
 import MaterialTable from "material-table";
 import {useDispatch} from "react-redux";
-import {addServices} from "../actions/servicesActions";
+import {addServices, deleteServices, updateServices} from "../actions/servicesActions";
+import {deleteColors, updateColors} from "../actions/colorsActions";
 
 function ServicesComponents({servicesAll}) {
     const {useState} = React;
@@ -33,7 +34,7 @@ function ServicesComponents({servicesAll}) {
                             const index = oldData.tableData.id;
                             dataUpdate[index] = newData;
                             setData([...dataUpdate]);
-
+                            dispatch(updateServices(newData))
                             resolve();
                         }, 1000)
                     }),
@@ -44,7 +45,7 @@ function ServicesComponents({servicesAll}) {
                             const index = oldData.tableData.id;
                             dataDelete.splice(index, 1);
                             setData([...dataDelete]);
-
+                            dispatch(deleteServices(oldData._id))
                             resolve()
                         }, 1000)
                     }),

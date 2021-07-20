@@ -17,9 +17,39 @@ export const addFormula = asyncHandler(async (req, res) => {
     }
 })
 
+
+export const updateFormula = asyncHandler(async (req, res) => {
+    const element = await Formula.findById(req.body._id)
+    if (element) {
+        element.name = req.body.name || element.name
+        const updatedElement = await element.save()
+        res.json({
+            _id: updatedElement._id,
+            name: updatedElement.name,
+
+        })
+    } else {
+        res.status(404)
+        throw new Error('Element not found')
+    }
+})
+
+
+export const deleteFormula= asyncHandler(async (req, res) => {
+    console.log(req.params.id, 'body delete')
+    const element = await Formula.findById(req.params.id)
+    if (element) {
+        await element.remove()
+        res.json({message: "Element removed"})
+    } else {
+        res.status(404)
+        throw new Error('Element not found')
+    }
+})
+
 export const getAllFormula = asyncHandler(async (req, res) => {
     const formula = await Formula.find({})
     res.json(formula)
 })
 
-export default {addFormula, getAllFormula}
+export default {addFormula, getAllFormula, updateFormula, deleteFormula}

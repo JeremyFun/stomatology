@@ -10,13 +10,38 @@ import {
     userUpdateProfileReducer,
     userUpdateReducer
 } from "./reducers/userReducer";
-import {customerAddReducer, getAllCustomerReducer} from "./reducers/customerReducer";
-import {getAllTechnicReducer, technicAddReducer} from "./reducers/technicReducer";
-import {getAllServicesReducer, servicesAddReducer} from "./reducers/servicesReducer";
-import {colorsAddReducer, colorsUpdateReducer, getAllColorsReducer} from "./reducers/colorsReducer";
-import {formulaAddReducer, getAllFormulaReducer} from "./reducers/formulaReducer";
-import {countAddReducer, getAllCountReducer} from "./reducers/countReducer";
-import {formAddReducer, getAllFormReducer} from "./reducers/formReducer";
+import {
+    customerAddReducer,
+    customerDeleteReducer,
+    customerUpdateReducer,
+    getAllCustomerReducer
+} from "./reducers/customerReducer";
+import {
+    getAllTechnicReducer,
+    technicAddReducer,
+    technicDeleteReducer,
+    technicUpdateReducer
+} from "./reducers/technicReducer";
+import {
+    getAllServicesReducer,
+    servicesAddReducer,
+    servicesDeleteReducer,
+    servicesUpdateReducer
+} from "./reducers/servicesReducer";
+import {
+    colorsAddReducer,
+    colorsDeleteReducer,
+    colorsUpdateReducer,
+    getAllColorsReducer
+} from "./reducers/colorsReducer";
+import {
+    formulaAddReducer,
+    formulaDeleteReducer,
+    formulaUpdateReducer,
+    getAllFormulaReducer
+} from "./reducers/formulaReducer";
+import {countAddReducer, countDeleteReducer, countUpdateReducer, getAllCountReducer} from "./reducers/countReducer";
+import {formAddReducer, formUpdateReducer, getAllFormReducer} from "./reducers/formReducer";
 
 const reducers = combineReducers({
     userLogin: userLoginReducer,
@@ -28,20 +53,32 @@ const reducers = combineReducers({
     userUpdate: userUpdateReducer,
     customer: customerAddReducer,
     customerAll: getAllCustomerReducer,
+    customerUpdate: customerUpdateReducer,
+    customerDelete: customerDeleteReducer,
     technic: technicAddReducer,
     technicAll: getAllTechnicReducer,
+    technicUpdate: technicUpdateReducer,
+    technicDelete: technicDeleteReducer,
     services: servicesAddReducer,
     servicesAll: getAllServicesReducer,
+    servicesUpdate: servicesUpdateReducer,
+    servicesDelete: servicesDeleteReducer,
     colors: colorsAddReducer,
     colorsAll: getAllColorsReducer,
     updateColors: colorsUpdateReducer,
+    deleteColors: colorsDeleteReducer,
     formula: formulaAddReducer,
     formulaAll: getAllFormulaReducer,
+    formulaUpdate: formulaUpdateReducer,
+    formulaDelete: formulaDeleteReducer,
     count: countAddReducer,
     countAll: getAllCountReducer,
+    countUpdate: countUpdateReducer,
+    countDelete: countDeleteReducer,
     form: formAddReducer,
     formAll: getAllFormReducer,
-
+    formUpdate: formUpdateReducer,
+    formDelete: formulaDeleteReducer
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react"
 import MaterialTable from "material-table";
 import {useDispatch, useSelector} from "react-redux";
-import {addFormula} from "../actions/formulaActions";
+import {addFormula, deleteFormula, updateFormula} from "../actions/formulaActions";
+import {deleteColors, updateColors} from "../actions/colorsActions";
 
 function FormulaComponents({formulaAll}) {
     const [columns, setColumns] = useState([
@@ -12,7 +13,7 @@ function FormulaComponents({formulaAll}) {
     const [data, setData] = useState(formulaAll || []);
     return (
         <MaterialTable
-            title="Формула меню"
+            title="Матеріал меню"
             columns={columns}
             data={data}
             editable={{
@@ -32,7 +33,7 @@ function FormulaComponents({formulaAll}) {
                             const index = oldData.tableData.id;
                             dataUpdate[index] = newData;
                             setData([...dataUpdate]);
-
+                            dispatch(updateFormula(newData))
                             resolve();
                         }, 1000)
                     }),
@@ -43,7 +44,7 @@ function FormulaComponents({formulaAll}) {
                             const index = oldData.tableData.id;
                             dataDelete.splice(index, 1);
                             setData([...dataDelete]);
-
+                            dispatch(deleteFormula(oldData._id))
                             resolve()
                         }, 1000)
                     }),

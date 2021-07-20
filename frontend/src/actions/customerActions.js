@@ -1,9 +1,25 @@
 import {
     CUSTOMER_ADD_REQUEST,
     CUSTOMER_ADD_SUCCESS,
-    CUSTOMER_ADD_FAIL, GET_ALL_CUSTOMER_REQUEST, GET_ALL_CUSTOMER_SUCCESS, GET_ALL_CUSTOMER_FAIL
+    CUSTOMER_ADD_FAIL,
+    GET_ALL_CUSTOMER_REQUEST,
+    GET_ALL_CUSTOMER_SUCCESS,
+    GET_ALL_CUSTOMER_FAIL,
+    CUSTOMER_DELETE_FAIL,
+    CUSTOMER_DELETE_SUCCESS,
+    CUSTOMER_DELETE_REQUEST,
+    CUSTOMER_UPDATE_FAIL,
+    CUSTOMER_UPDATE_SUCCESS,
+    CUSTOMER_UPDATE_REQUEST
 } from "../constants/customerConstants"
 import axios from "axios"
+import {
+    COLORS_DELETE_FAIL,
+    COLORS_DELETE_REQUEST, COLORS_DELETE_SUCCESS,
+    COLORS_UPDATE_FAIL,
+    COLORS_UPDATE_REQUEST,
+    COLORS_UPDATE_SUCCESS
+} from "../constants/colorsConstants";
 
 export const addCustomer = (name, phone, novaposhta) => async (dispatch) => {
     try {
@@ -71,6 +87,61 @@ export const getAllCustomer = () => async (dispatch) => {
     }
 }
 
+export const updateCustomer = (_id) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: CUSTOMER_UPDATE_REQUEST
+        })
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+
+        const { data } = await axios.put(
+            `/api/customers`,
+            _id,
+            config
+        )
+
+        dispatch({
+            type: CUSTOMER_UPDATE_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: CUSTOMER_UPDATE_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message
+        })
+    }
+}
+
+export const deleteCustomer = (_id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: CUSTOMER_DELETE_REQUEST
+        })
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+        const {data} = await axios.delete(`/api/customers/${_id}` )
+        dispatch({ type: CUSTOMER_DELETE_SUCCESS,  payload: data })
+    } catch (error) {
+        dispatch({
+            type: CUSTOMER_DELETE_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message
+        })
+    }
+}
 
 
 // export const logout = () => (dispatch) => {

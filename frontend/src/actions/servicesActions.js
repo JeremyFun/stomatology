@@ -1,9 +1,24 @@
 import {
     SERVICES_ADD_REQUEST,
     SERVICES_ADD_SUCCESS,
-    SERVICES_ADD_FAIL, GET_ALL_SERVICES_REQUEST, GET_ALL_SERVICES_SUCCESS, GET_ALL_SERVICES_FAIL
+    SERVICES_ADD_FAIL,
+    GET_ALL_SERVICES_REQUEST,
+    GET_ALL_SERVICES_SUCCESS,
+    GET_ALL_SERVICES_FAIL,
+    SERVICES_UPDATE_REQUEST,
+    SERVICES_UPDATE_SUCCESS,
+    SERVICES_UPDATE_FAIL,
+    SERVICES_DELETE_REQUEST,
+    SERVICES_DELETE_SUCCESS, SERVICES_DELETE_FAIL
 } from "../constants/servicesConstants"
 import axios from "axios"
+import {
+    COLORS_DELETE_FAIL,
+    COLORS_DELETE_REQUEST, COLORS_DELETE_SUCCESS,
+    COLORS_UPDATE_FAIL,
+    COLORS_UPDATE_REQUEST,
+    COLORS_UPDATE_SUCCESS
+} from "../constants/colorsConstants";
 
 export const addServices = (name) => async (dispatch) => {
     try {
@@ -70,6 +85,63 @@ export const getAllServices = () => async (dispatch) => {
         })
     }
 }
+
+export const updateServices = (_id) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: SERVICES_UPDATE_REQUEST
+        })
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+
+        const { data } = await axios.put(
+            `/api/services`,
+            _id,
+            config
+        )
+
+        dispatch({
+            type: SERVICES_UPDATE_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: SERVICES_UPDATE_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message
+        })
+    }
+}
+
+export const deleteServices = (_id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: SERVICES_DELETE_REQUEST
+        })
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+        const {data} = await axios.delete(`/api/services/${_id}` )
+        dispatch({ type: SERVICES_DELETE_SUCCESS,  payload: data })
+    } catch (error) {
+        dispatch({
+            type: SERVICES_DELETE_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message
+        })
+    }
+}
+
 
 
 

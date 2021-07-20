@@ -1,9 +1,22 @@
 import {
     FORM_ADD_REQUEST,
     FORM_ADD_SUCCESS,
-    FORM_ADD_FAIL, GET_ALL_FORM_REQUEST, GET_ALL_FORM_SUCCESS, GET_ALL_FORM_FAIL
+    FORM_ADD_FAIL,
+    GET_ALL_FORM_REQUEST,
+    GET_ALL_FORM_SUCCESS,
+    GET_ALL_FORM_FAIL,
+    FORM_DELETE_FAIL,
+    FORM_DELETE_SUCCESS,
+    FORM_DELETE_REQUEST, FORM_UPDATE_FAIL, FORM_UPDATE_SUCCESS, FORM_UPDATE_REQUEST
 } from "../constants/formConstants"
 import axios from "axios"
+import {
+    COLORS_DELETE_FAIL,
+    COLORS_DELETE_REQUEST, COLORS_DELETE_SUCCESS,
+    COLORS_UPDATE_FAIL,
+    COLORS_UPDATE_REQUEST,
+    COLORS_UPDATE_SUCCESS
+} from "../constants/colorsConstants";
 
 export const addForm = (colors,
                         count,
@@ -90,6 +103,63 @@ export const getAllForm = () => async (dispatch) => {
         })
     }
 }
+
+export const updateForm = (_id) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: FORM_UPDATE_REQUEST
+        })
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+
+        const { data } = await axios.put(
+            `/api/form`,
+            _id,
+            config
+        )
+
+        dispatch({
+            type: FORM_UPDATE_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: FORM_UPDATE_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message
+        })
+    }
+}
+
+export const deleteForm = (_id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: FORM_DELETE_REQUEST
+        })
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+        const {data} = await axios.delete(`/api/form/${_id}` )
+        dispatch({ type: FORM_DELETE_SUCCESS,  payload: data })
+    } catch (error) {
+        dispatch({
+            type: FORM_DELETE_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message
+        })
+    }
+}
+
 
 
 

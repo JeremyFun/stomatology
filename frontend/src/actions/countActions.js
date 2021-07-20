@@ -1,9 +1,21 @@
 import {
     COUNT_ADD_REQUEST,
     COUNT_ADD_SUCCESS,
-    COUNT_ADD_FAIL, GET_ALL_COUNT_REQUEST, GET_ALL_COUNT_SUCCESS, GET_ALL_COUNT_FAIL
+    COUNT_ADD_FAIL,
+    GET_ALL_COUNT_REQUEST,
+    GET_ALL_COUNT_SUCCESS,
+    GET_ALL_COUNT_FAIL,
+    COUNT_DELETE_SUCCESS,
+    COUNT_DELETE_FAIL, COUNT_DELETE_REQUEST, COUNT_UPDATE_FAIL, COUNT_UPDATE_SUCCESS, COUNT_UPDATE_REQUEST
 } from "../constants/countConstants"
 import axios from "axios"
+import {
+    COLORS_DELETE_FAIL,
+    COLORS_DELETE_REQUEST, COLORS_DELETE_SUCCESS,
+    COLORS_UPDATE_FAIL,
+    COLORS_UPDATE_REQUEST,
+    COLORS_UPDATE_SUCCESS
+} from "../constants/colorsConstants";
 
 export const addCount = (name) => async (dispatch) => {
     try {
@@ -71,6 +83,61 @@ export const getAllCount = () => async (dispatch) => {
     }
 }
 
+export const updateCount = (_id) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: COUNT_UPDATE_REQUEST
+        })
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+
+        const { data } = await axios.put(
+            `/api/count`,
+            _id,
+            config
+        )
+
+        dispatch({
+            type: COUNT_UPDATE_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: COUNT_UPDATE_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message
+        })
+    }
+}
+
+export const deleteCount = (_id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: COUNT_DELETE_REQUEST
+        })
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+        const {data} = await axios.delete(`/api/count/${_id}` )
+        dispatch({ type: COUNT_DELETE_SUCCESS,  payload: data })
+    } catch (error) {
+        dispatch({
+            type: COUNT_DELETE_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message
+        })
+    }
+}
 
 
 // export const logout = () => (dispatch) => {

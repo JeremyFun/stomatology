@@ -6,7 +6,7 @@ import {
     GET_ALL_COLORS_SUCCESS,
     GET_ALL_COLORS_FAIL,
     COLORS_UPDATE_REQUEST,
-    COLORS_UPDATE_SUCCESS, COLORS_UPDATE_FAIL
+    COLORS_UPDATE_SUCCESS, COLORS_UPDATE_FAIL, COLORS_DELETE_REQUEST, COLORS_DELETE_SUCCESS, COLORS_DELETE_FAIL
 } from "../constants/colorsConstants"
 import axios from "axios"
 
@@ -108,6 +108,31 @@ export const updateColors = (_id) => async (dispatch, getState) => {
         })
     }
 }
+
+export const deleteColors = (_id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: COLORS_DELETE_REQUEST
+        })
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+        const {data} = await axios.delete(`/api/colors/${_id}` )
+        dispatch({ type: COLORS_DELETE_SUCCESS,  payload: data })
+    } catch (error) {
+        dispatch({
+            type: COLORS_DELETE_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message
+        })
+    }
+}
+
+
 
 
 // export const logout = () => (dispatch) => {
@@ -219,33 +244,6 @@ export const updateColors = (_id) => async (dispatch, getState) => {
 //     }
 // }
 //
-// export const deleteUser = (id) => async (dispatch, getState) => {
-//     try {
-//         dispatch({
-//             type: USER_DELETE_REQUEST
-//         })
-//
-//         const { userLogin: { userInfo } } = getState()
-//         const config = {
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 'Authorization': `Bearer ${userInfo.token}`
-//             }
-//         }
-//
-//         await axios.delete(`/api/users/${id}`, config )
-//
-//         dispatch({ type: USER_DELETE_SUCCESS })
-//     } catch (error) {
-//         dispatch({
-//             type: USER_DELETE_FAIL,
-//             payload:
-//                 error.response && error.response.data.message
-//                     ? error.response.data.message
-//                     : error.message
-//         })
-//     }
-// }
 //
 // export const updateUser = (user) => async (dispatch, getState) => {
 //     try {

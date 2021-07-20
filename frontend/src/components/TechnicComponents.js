@@ -3,7 +3,8 @@ import MaterialTable from "material-table";
 import {useDispatch, useSelector} from "react-redux";
 import {addCustomer, getAllCustomer} from "../actions/customerActions";
 import {getAllUsers} from "../actions/userActions";
-import {addTechnic} from "../actions/technicActions";
+import {addTechnic, deleteTechnic, updateTechnic} from "../actions/technicActions";
+import {deleteColors, updateColors} from "../actions/colorsActions";
 
 function TechnicComponents({technicAll}) {
     const {useState} = React;
@@ -35,7 +36,7 @@ function TechnicComponents({technicAll}) {
                             const index = oldData.tableData.id;
                             dataUpdate[index] = newData;
                             setData([...dataUpdate]);
-
+                            dispatch(updateTechnic(newData))
                             resolve();
                         }, 1000)
                     }),
@@ -46,7 +47,7 @@ function TechnicComponents({technicAll}) {
                             const index = oldData.tableData.id;
                             dataDelete.splice(index, 1);
                             setData([...dataDelete]);
-
+                            dispatch(deleteTechnic(oldData._id))
                             resolve()
                         }, 1000)
                     }),

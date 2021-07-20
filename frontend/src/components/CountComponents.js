@@ -2,7 +2,8 @@ import React, {useEffect, useState} from "react"
 import MaterialTable from "material-table";
 import {useDispatch, useSelector} from "react-redux";
 import {addFormula} from "../actions/formulaActions";
-import {addCount} from "../actions/countActions";
+import {addCount, deleteCount, updateCount} from "../actions/countActions";
+import {deleteColors, updateColors} from "../actions/colorsActions";
 
 function CountComponents({countAll}) {
     const [columns, setColumns] = useState([
@@ -32,8 +33,8 @@ function CountComponents({countAll}) {
                             const dataUpdate = [...data];
                             const index = oldData.tableData.id;
                             dataUpdate[index] = newData;
+                            dispatch(updateCount(newData))
                             setData([...dataUpdate]);
-
                             resolve();
                         }, 1000)
                     }),
@@ -44,7 +45,7 @@ function CountComponents({countAll}) {
                             const index = oldData.tableData.id;
                             dataDelete.splice(index, 1);
                             setData([...dataDelete]);
-
+                            dispatch(deleteCount(oldData._id))
                             resolve()
                         }, 1000)
                     }),

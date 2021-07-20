@@ -1,9 +1,21 @@
 import {
     FORMULA_ADD_REQUEST,
     FORMULA_ADD_SUCCESS,
-    FORMULA_ADD_FAIL, GET_ALL_FORMULA_REQUEST, GET_ALL_FORMULA_SUCCESS, GET_ALL_FORMULA_FAIL
+    FORMULA_ADD_FAIL,
+    GET_ALL_FORMULA_REQUEST,
+    GET_ALL_FORMULA_SUCCESS,
+    GET_ALL_FORMULA_FAIL,
+    FORMULA_DELETE_FAIL,
+    FORMULA_DELETE_SUCCESS, FORMULA_DELETE_REQUEST, FORMULA_UPDATE_FAIL, FORMULA_UPDATE_SUCCESS, FORMULA_UPDATE_REQUEST
 } from "../constants/formulaConstants"
 import axios from "axios"
+import {
+    COLORS_DELETE_FAIL,
+    COLORS_DELETE_REQUEST, COLORS_DELETE_SUCCESS,
+    COLORS_UPDATE_FAIL,
+    COLORS_UPDATE_REQUEST,
+    COLORS_UPDATE_SUCCESS
+} from "../constants/colorsConstants";
 
 export const addFormula = (name) => async (dispatch) => {
     try {
@@ -72,6 +84,61 @@ export const getAllFormula = () => async (dispatch) => {
 }
 
 
+export const updateFormula = (_id) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: FORMULA_UPDATE_REQUEST
+        })
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+
+        const { data } = await axios.put(
+            `/api/formula`,
+            _id,
+            config
+        )
+
+        dispatch({
+            type: FORMULA_UPDATE_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: FORMULA_UPDATE_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message
+        })
+    }
+}
+
+export const deleteFormula = (_id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: FORMULA_DELETE_REQUEST
+        })
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+        const {data} = await axios.delete(`/api/formula/${_id}` )
+        dispatch({ type: FORMULA_DELETE_SUCCESS,  payload: data })
+    } catch (error) {
+        dispatch({
+            type: FORMULA_DELETE_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message
+        })
+    }
+}
 
 // export const logout = () => (dispatch) => {
 //     localStorage.removeItem('userInfo')

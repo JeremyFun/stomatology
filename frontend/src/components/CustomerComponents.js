@@ -1,8 +1,9 @@
 import React, {useEffect} from "react"
 import MaterialTable from "material-table";
 import {useDispatch, useSelector} from "react-redux";
-import {addCustomer, getAllCustomer} from "../actions/customerActions";
+import {addCustomer, deleteCustomer, getAllCustomer, updateCustomer} from "../actions/customerActions";
 import {getAllUsers} from "../actions/userActions";
+import {deleteColors, updateColors} from "../actions/colorsActions";
 
 function CustomerComponents({customerAll}) {
     const {useState} = React;
@@ -37,7 +38,7 @@ function CustomerComponents({customerAll}) {
                             const index = oldData.tableData.id;
                             dataUpdate[index] = newData;
                             setData([...dataUpdate]);
-
+                            dispatch(updateCustomer(newData))
                             resolve();
                         }, 1000)
                     }),
@@ -48,7 +49,7 @@ function CustomerComponents({customerAll}) {
                             const index = oldData.tableData.id;
                             dataDelete.splice(index, 1);
                             setData([...dataDelete]);
-
+                            dispatch(deleteCustomer(oldData._id))
                             resolve()
                         }, 1000)
                     }),

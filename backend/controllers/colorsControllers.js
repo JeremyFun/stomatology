@@ -35,9 +35,21 @@ export const updateColors = asyncHandler(async (req, res) => {
 })
 
 
+export const deleteColors = asyncHandler(async (req, res) => {
+    console.log(req.params.id, 'body delete')
+    const colors = await Colors.findById(req.params.id)
+    if (colors) {
+        await colors.remove()
+        res.json({message: "Colors removed"})
+    } else {
+        res.status(404)
+        throw new Error('Colors not found')
+    }
+})
+
 export const getAllColors = asyncHandler(async (req, res) => {
     const colors = await Colors.find({})
     res.json(colors)
 })
 
-export default {addColors, getAllColors, updateColors}
+export default {addColors, getAllColors, updateColors, deleteColors}
